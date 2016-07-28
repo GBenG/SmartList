@@ -1,0 +1,38 @@
+@import "reset";
+
+$color:#333;
+$font:Tahoma, Geneva, sans-serif;
+$fsize:1.1em;
+$m-left:1em;
+
+ul li {
+	list-style-type:none;
+	list-style-image:url(../img/arrow.png);
+	margin-bottom:$fsize - 0.5em;
+	margin-left:$m-left*2;
+}
+a {
+	text-decoration:none;
+	color:$color;	
+	font-family:$font;
+	font-size:$fsize;
+	font-weight:600; 
+}
+a:hover {
+	color:$color+#666;	
+}
+
+h1{
+	font-family:$font;
+	text-transform:uppercase;
+	color:$color;	
+	font-size:$fsize*2;
+	margin-left:$m-left/2.9;
+}
+
+h6{
+	font-family:$font;
+	color:$color*4;	
+	font-size:$fsize/1.2;
+	margin-left:$m-left;
+}

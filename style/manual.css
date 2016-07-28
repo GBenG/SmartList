@@ -1,0 +1,29 @@
+.headr{
+	position:relative;	
+}
+
+.fio{
+	display:block;
+	position:relative;
+	left:0.75em;
+	top:1em;
+	background:#999;
+	width:300px;
+	padding:20px;
+	color:#FFF;
+	border-radius:10px;
+	text-align:center;
+	font-weight:800;
+	font-family: Tahoma, Geneva, sans-serif;
+}
+
+@media only screen and (min-width:480px) {.fio{left:6.5em; top:4em; font-family:"Comic Sans MS", cursive;}}
+
+
+.fio h1{
+	font-size:3em;
+}
+
+.img-thumbnail {
+	margin-bottom:1em;	
+}

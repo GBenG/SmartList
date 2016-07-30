@@ -22,12 +22,12 @@ if(isset($_POST['submit_q']))
     if(count($err) == 0)
     {
         $tnm = $_POST['t_name'];
-		$tprc = $_POST['t_price'];
+		$tprc = $_POST['t_contacts'];
 		$turl = $_POST['t_url'];
         
        
-        mysqli_query($link,"INSERT INTO spisok SET name='".$tnm."', price='".$tprc."', url='".$turl."'");
-        header("Location: spisok.php"); exit();
+        mysqli_query($link,"INSERT INTO shippers SET shipper='".$tnm."', contacts='".$tprc."', url='".$turl."'");
+        header("Location: shippers.php"); exit();
     }
     else
     {
@@ -76,18 +76,18 @@ if(isset($_POST['submit_q']))
   </tr>
   <tr>
     <td>&nbsp;</td>
-    <td style="padding:5px !important">Цена [$]</td>
-    <td><input name="t_price" type="text" style="width:500px;"></td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td style="padding:5px !important">Ссылка [URL]</td>
+    <td style="padding:5px !important">Ссылка</td>
     <td><textarea name="t_url" style="width:500px;"></textarea></td>
     <td>&nbsp;</td>
   </tr>
   <tr>
     <td>&nbsp;</td>
+    <td style="padding:5px !important">Контакты</td>
+    <td><textarea name="t_contacts" style="width:500px;"></textarea></td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>    
     <td colspan="2">
     	<p class="text-center"><input class="btn btn-success btn-lg" name="submit_q" type="submit" value="Добавить"></p>
     </td>
@@ -132,15 +132,15 @@ if (isset($_COOKIE['id']) and isset($_COOKIE['hash']))
 $link = mysqli_connect("localhost", "u158376855_sps", "u9550_lupa") or die( mysql_error() );
 mysqli_select_db($link, "u158376855_list");
 
-$TableName="spisok";
+$TableName="shippers";
 
 $sql="SELECT * FROM $TableName";
 $query_result=mysqli_query($link,$sql) or die("Display error".mysql_error());
-print("<table class='table table-striped'>\n");
+print("<table max-width=600px class='table table-striped'>\n");
 print("<tr class='success'> <td>Названиея</td> <td>Цена</td> <td>URL</td> </tr>");
 while($Row=mysqli_fetch_array($query_result))
 {
-print("<tr align=center> <td align=left>&nbsp; $Row[name]</td> <td width=100>$Row[price] $</td> <td><a href=http://$Row[url]>$Row[url]</a></td> </tr>\n");
+print("<tr align=center> <td align=left>&nbsp; $Row[shipper]</td> <td>$Row[contacts]</td> <td><a href=$Row[url]>$Row[url]</a></td> </tr>\n");
 }
 print("</table>");
 mysqli_free_result($query_result);

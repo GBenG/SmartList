@@ -44,7 +44,7 @@ if(isset($_POST['submit']))
         setcookie("hash", $hash, time()+60*60*24*30);
 
         # Переадресовываем браузер на страницу проверки нашего скрипта
-        header("Location: spisok.php"); exit();
+        header("Location: lists.html"); exit();
     }
     else
     {
@@ -54,8 +54,12 @@ if(isset($_POST['submit']))
 ?>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Документ без названия</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Кто ты?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css" >
+    <link rel="stylesheet" href="styles/manual.css" >
+	<link rel="shortcut icon" type="img/ico" href="images/favicon.ico" />
 </head>
 
 <body>
@@ -65,11 +69,11 @@ if(isset($_POST['submit']))
   </tr>
   <tr>
     <td><img src="images/bdht_02.jpg" height="100"></td>
-    <td width="100%"><p align="center"><img src="images/sps-drow_A4.jpg"></p></td>
+    <td width="100%"><p align="center"><a href="lists.html"><img src="images/sps-drow_A4.jpg"></a></p></td>
     <td><img src="images/bdht_03.jpg" height="100"></td>
   </tr>
 </table> -->
-<p align="center"><img src="images/sps-drow_A4.jpg"></p>
+<p align="center"><a href="lists.html"><img src="images/sps-drow_A4.jpg"></a></p>
 <br><br>
 <form method="POST">
     <table align="center">
@@ -89,5 +93,8 @@ if(isset($_POST['submit']))
         </tr>
     </table>
 </form>
+<hr>
+<div class="well">Develop by <strong><a href="http://sps.esy.es/">SPS</a></strong> for <strong>Ambience Innovations</strong> 
+<span class="glyphicon glyphicon-copyright-mark"></span> 2016</div>
 </body>
 </html>

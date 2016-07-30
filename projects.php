@@ -18,16 +18,13 @@ if(isset($_POST['submit_q']))
 //	 header("Location: reg_error.html"); exit();
     }
     
-    # Если нет ошибок, то добавляем в БД нового пользователя
+    # Если нет ошибок, то добавляем в БД 
     if(count($err) == 0)
     {
         $tnm = $_POST['t_name'];
-		$tprc = $_POST['t_price'];
-		$turl = $_POST['t_url'];
-        
        
-        mysqli_query($link,"INSERT INTO spisok SET name='".$tnm."', price='".$tprc."', url='".$turl."'");
-        header("Location: spisok.php"); exit();
+        mysqli_query($link,"INSERT INTO projects SET project='".$tnm."'");
+        header("Location: projects.php"); exit();
     }
     else
     {
@@ -47,6 +44,7 @@ if(isset($_POST['submit_q']))
     <meta http-equiv="Content-Language" content="ru">
     <meta name="robots" content="index, follow" />
     <title>Списог желаний АмбиэнцИнновэйшнз :)</title>
+    <meta http-equiv="cache-control" content="no-cache" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css" >
     <link rel="stylesheet" href="styles/manual.css" >
@@ -64,26 +62,14 @@ if(isset($_POST['submit_q']))
   <div class="col-md-6 col-md-offset-3">
 
 <form method="POST">
-<table width="80%" border="0" cellspacing="6px" cellpadding="5px">
+<table width="100%" border="0" cellspacing="6px" cellpadding="5px">
   <tr>
     <td colspan="4" align="center"  style="padding:5px !important"><strong>Добавление нового пункта</strong></td>
     </tr>
   <tr>
     <td>&nbsp;</td>
     <td style="padding:5px !important">Название</td>
-    <td><input name="t_name" type="text" style="width:500px;"></td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td style="padding:5px !important">Цена [$]</td>
-    <td><input name="t_price" type="text" style="width:500px;"></td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td style="padding:5px !important">Ссылка [URL]</td>
-    <td><textarea name="t_url" style="width:500px;"></textarea></td>
+    <td><input name="t_name" type="text" style="width:400px;"></td>
     <td>&nbsp;</td>
   </tr>
   <tr>
@@ -132,15 +118,16 @@ if (isset($_COOKIE['id']) and isset($_COOKIE['hash']))
 $link = mysqli_connect("localhost", "u158376855_sps", "u9550_lupa") or die( mysql_error() );
 mysqli_select_db($link, "u158376855_list");
 
-$TableName="spisok";
+$TableName="projects";
 
 $sql="SELECT * FROM $TableName";
 $query_result=mysqli_query($link,$sql) or die("Display error".mysql_error());
-print("<table class='table table-striped'>\n");
-print("<tr class='success'> <td>Названиея</td> <td>Цена</td> <td>URL</td> </tr>");
+print("<table max-width=600px class='table'>\n");
+print("<tr class='success'><td>Названиея</td></tr>");
 while($Row=mysqli_fetch_array($query_result))
 {
-print("<tr align=center> <td align=left>&nbsp; $Row[name]</td> <td width=100>$Row[price] $</td> <td><a href=http://$Row[url]>$Row[url]</a></td> </tr>\n");
+/*print("<tr align=center> <td align=left>&nbsp; $Row[project]</td></tr>\n");*/
+print("<tr align=center> <td align=left>&nbsp;<input class='btn btn-default' name=submit_q type=submit value=$Row[project]></td></tr>\n");
 }
 print("</table>");
 mysqli_free_result($query_result);

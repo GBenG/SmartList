@@ -1,5 +1,21 @@
 <!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 <?php
+  session_start(); // Начинаем сессию
+  if ($_GET["loc"] == "ukr") {
+    $val = "Украина";
+  }
+  elseif ($_GET["loc"] == "chi") {
+    $val = "Китай";
+  }
+  elseif ($_GET["loc"] == "usa") {
+    $val = "США";
+  }
+  elseif ($_GET["loc"] == "oth") {
+    $val = "Другое";
+  }else{
+  $val = "Другое";
+  }
+  
 # Добавление элемента в список
 # Соединямся с БД
 $link = mysqli_connect("localhost", "u158376855_sps", "u9550_lupa") or die( mysql_error() );
@@ -24,7 +40,7 @@ if(isset($_POST['submit_q']))
 		$tap2url = $_POST['t_appnote_url'];
 		$tap3url = $_POST['t_appnote_url'];
 		
-		mysqli_query($link,"INSERT INTO spisok_ SET articul='".$tart."', name='".$tnem."', description='".$tdes."', price='".$tprc."', Qty='".$tqty."', availble='".$tave."', ordered='".$tord."', need='".$tned."', datasheet='".$tdaturl."', appnote1='".$tap1url."', appnote2='".$tap2url."', appnote3='".$tap3url."'");
+		mysqli_query($link,"INSERT INTO shippers_ SET articul='".$tart."', name='".$tnem."', description='".$tdes."', price='".$tprc."', Qty='".$tqty."', availble='".$tave."', ordered='".$tord."', need='".$tned."', datasheet='".$tdaturl."', appnote1='".$tap1url."', appnote2='".$tap2url."', appnote3='".$tap3url."'");
 		header("Location: add_component.php"); 
 		exit();
 	}
@@ -50,7 +66,11 @@ if(isset($_POST['submit_q']))
     <link rel="stylesheet" href="css/bootstrap.min.css" >
     <link rel="stylesheet" href="styles/manual.css" >
 	<link rel="shortcut icon" type="img/ico" href="images/favicon.ico" />
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <script src="js/respond.min.js"></script>	
+    <script src="js/bootstrap.js"></script>	
+    <script src="js/bootstrap-dropdown.js"></script>	
 </head>
 <!------------------------------------------------------------------------------------------------------------------------------------------------------>
 <body>
@@ -71,83 +91,66 @@ if(isset($_POST['submit_q']))
 	<div class="row">
 		<div class="col-md-10  col-md-offset-1">
             <form method="POST">
-            <table width="100%" border="0" cellspacing="6px" cellpadding="5px">
+            <table width="100%" border="0">
               <tr>
                 <td colspan="4" align="center"  style="padding:5px !important"></td>
-                </tr>
-              <tr>
+               </tr>
+               <tr>
                 <td>
-                    <label for="basic-url">Название</label>
-                    <input type="text" name="t_name" class="form-control" placeholder="Name" aria-describedby="basic-addon1">
+                    <label for="basic-url">Расположение</label>
+                  <div class="input-group has-success">
+	                  <input type="text" class="form-control" aria-label="..."  id="inputSuccess1" value = '<?=$val;?>'/>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-success dropdown-toggle" style="border-color:#3c763d"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">				 Выбрать <span class="caret"></span></button>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <li><a href="add_shipper.php?loc=ukr">Украина</a></li>
+                            <li><a href="add_shipper.php?loc=chi">Китай</a></li>
+                            <li><a href="add_shipper.php?loc=usa">США</a></li>
+                            <li><a href="add_shipper.php?loc=oth">Другое</a></li>
+                        </ul>
+                      </div><!-- /btn-group -->
+                    </div><!-- /input-group -->
+                    <h6 style="color:rgba(138,138,138,1.00)">*выбор расположения необходимо сделать до ввода данных в остальные поля</h6>
+                    <hr>
                 </td>
               </tr>
               <tr>
                 <td>
-                    <label for="basic-url">Описание</label>
-                    <input type="text" name="t_description" class="form-control" placeholder="Description" aria-describedby="basic-addon1">
+                    <label for="basic-url">Компания</label>
+                    <input type="text" name="t_company" class="form-control" placeholder="Name" aria-describedby="basic-addon1">
                 </td>
-              </tr>
+               </tr>
               <tr>
                 <td>
-                    <label for="basic-url">Цена</label>
+                    <label for="basic-url">Время доставки</label>
                     <div class="input-group">
-                        <input type="text" name="t_price" class="form-control" placeholder="0,00" aria-label="Amount (to the nearest dollar)">
+                        <input type="text" name="t_Dtime" class="form-control" placeholder="0" aria-label="Amount (to the nearest dollar)">
+                        <span class="input-group-addon">дней</span>
+                    </div>
+                </td>
+              </tr>
+                            <tr>
+                <td>
+                    <label for="basic-url">Стоимость доставки</label>
+                    <div class="input-group">
+                        <input type="text" name="t_Dprice" class="form-control" placeholder="0.00" aria-label="Amount (to the nearest dollar)">
                         <span class="input-group-addon">$</span>
                     </div>
                 </td>
               </tr>
-                            <tr>
+              <tr>
                 <td>
-                    <label for="basic-url">Кол-во</label>
+                    <label for="basic-url">Ссылка на поставщика</label>
                     <div class="input-group">
-                        <input type="text" name="t_Qty" class="form-control" placeholder="0" aria-label="Amount (to the nearest dollar)">
-                        <span class="input-group-addon">шт.</span>
-                    </div>
-                </td>
-              </tr>
-                            <tr>
-                <td>
-                    <label for="basic-url">Наличие</label>
-                    <div class="input-group">
-                        <input type="text" name="t_availble" class="form-control" placeholder="0" aria-label="Amount (to the nearest dollar)">
-                        <span class="input-group-addon">шт.</span>
-                    </div>
-                </td>
-              </tr>
-                            <tr>
-                <td>
-                    <label for="basic-url">Заказано</label>
-                    <div class="input-group">
-                        <input type="text" name="t_ordered" class="form-control" placeholder="0" aria-label="Amount (to the nearest dollar)">
-                        <span class="input-group-addon">шт.</span>
-                    </div>
-                </td>
-              </tr>
-                            <tr>
-                <td>
-                    <label for="basic-url">Необходимо</label>
-                    <div class="input-group">
-                        <input type="text" name="t_need" class="form-control" placeholder="0" aria-label="Amount (to the nearest dollar)">
-                        <span class="input-group-addon">шт.</span>
+                      <span class="input-group-addon" id="basic-addon3">http://</span>
+                      <input type="text" name="t_ship_url" class="form-control" id="basic-url" aria-describedby="basic-addon3">
                     </div>
                 </td>
               </tr>
               <tr>
                 <td>
-                    <label for="basic-url">DataSheet</label>
-                    <div class="input-group">
-                      <span class="input-group-addon" id="basic-addon3">http://</span>
-                      <input type="text" name="t_datasheet_url" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                    </div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                    <label for="basic-url">AppNote</label>
-                    <div class="input-group">
-                      <span class="input-group-addon" id="basic-addon3">http://</span>
-                      <input type="text" name="t_appnote_url" class="form-control" id="basic-url" aria-describedby="basic-addon3">
-                    </div>
+                    <label for="basic-url">Контакты поставщика</label>
+                    <input type="text" name="t_contacts" class="form-control" aria-describedby="basic-addon1">
                 </td>
               </tr>
               <tr>

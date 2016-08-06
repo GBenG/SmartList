@@ -4,7 +4,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Хост: localhost
--- Время создания: Июл 30 2016 г., 10:12
+-- Время создания: Авг 06 2016 г., 23:30
 -- Версия сервера: 10.0.20-MariaDB
 -- Версия PHP: 5.2.17
 
@@ -24,123 +24,37 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `list`
+-- Структура таблицы `spisok_`
 --
 
-CREATE TABLE IF NOT EXISTS `list` (
+CREATE TABLE IF NOT EXISTS `spisok_` (
   `ID` int(16) unsigned NOT NULL AUTO_INCREMENT,
-  `articul` int(32) NOT NULL,
-  `element` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `price` float NOT NULL,
-  `project` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `comment` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `projects`
---
-
-CREATE TABLE IF NOT EXISTS `projects` (
-  `ID` int(16) unsigned NOT NULL AUTO_INCREMENT,
-  `project` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
-
---
--- Дамп данных таблицы `projects`
---
-
-INSERT INTO `projects` (`ID`, `project`) VALUES
-(4, 'Starling'),
-(3, 'BlueJAY'),
-(5, 'Znak');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `shiplist`
---
-
-CREATE TABLE IF NOT EXISTS `shiplist` (
-  `ID` int(16) NOT NULL,
   `articul` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `shipper` varchar(64) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `shippers`
---
-
-CREATE TABLE IF NOT EXISTS `shippers` (
-  `shipper` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `url` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
-  `contacts` varchar(32) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Дамп данных таблицы `shippers`
---
-
-INSERT INTO `shippers` (`shipper`, `url`, `contacts`) VALUES
-('Имрад', 'imrad.com.ua', '+380 (44) 490-21-95'),
-('Космодром', 'http://www.kosmodrom.com.ua/', '(057) 750 99 93\r\n(057) 755 48 27');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `spisok`
---
-
-CREATE TABLE IF NOT EXISTS `spisok` (
   `name` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `description` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
   `price` float NOT NULL,
-  `url` varchar(64) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `Qty` int(16) NOT NULL,
+  `availble` int(16) NOT NULL,
+  `ordered` int(16) NOT NULL,
+  `need` int(16) NOT NULL,
+  `datasheet` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `appnote1` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `appnote2` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  `appnote3` varchar(128) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `ID` (`ID`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=7 ;
 
 --
--- Дамп данных таблицы `spisok`
+-- Дамп данных таблицы `spisok_`
 --
 
-INSERT INTO `spisok` (`name`, `price`, `url`) VALUES
-('Резисторы', 25, 'Козлодром'),
-('Резистор ', 0.15, 'test '),
-('Пучек паяльников', 53, 'РКС Компоненты'),
-('Ведро кондесаторов', 62, 'оЕ-Ворон'),
-('Золоченый дросель на 8Гн', 787, 'Китай'),
-('Датчик газа MQ-2 модуль', 5.38, 'http://www.mini-tech.com.ua/index.php?route=product/product&path');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `users`
---
-
-CREATE TABLE IF NOT EXISTS `users` (
-  `user_id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_login` varchar(30) NOT NULL,
-  `user_password` varchar(32) NOT NULL,
-  `user_hash` varchar(32) NOT NULL,
-  `user_ip` int(10) unsigned NOT NULL DEFAULT '0',
-  `surname` varchar(300) NOT NULL,
-  `name` varchar(300) NOT NULL,
-  `fname` varchar(300) NOT NULL,
-  `dnumber` varchar(30) NOT NULL,
-  `situation` text NOT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=cp1251 AUTO_INCREMENT=34 ;
-
---
--- Дамп данных таблицы `users`
---
-
-INSERT INTO `users` (`user_id`, `user_login`, `user_password`, `user_hash`, `user_ip`, `surname`, `name`, `fname`, `dnumber`, `situation`) VALUES
-(33, 'admin', 'b03496787c3d934ad67e2295cee01407', '8b796202ce06cdc324be14e629866742', 1388405637, '', '', '', '', ''),
-(32, 'Boris', 'dca76855be17e335d09512be4c108e9d', '', 0, '', '', '', '', '');
+INSERT INTO `spisok_` (`ID`, `articul`, `name`, `description`, `price`, `Qty`, `availble`, `ordered`, `need`, `datasheet`, `appnote1`, `appnote2`, `appnote3`) VALUES
+(3, 'ai_57a659781d058', 'LM317', 'Linear regulator', 0.52, 95, 2, 50, 200, 'sps.esy.es/SmartList/add_component.php', 'myrusakov.ru/php-uniqid.html', 'myrusakov.ru/php-uniqid.html', 'myrusakov.ru/php-uniqid.html'),
+(2, 'ai_57a659781d153', 'MC34063', 'DC-DC regulator', 1.25, 50, 15, 30, 100, 'ti.com/lit/ds/symlink/mc34063a.pdf', 'sparkfun.com/datasheets/IC/MC34063A.pdf', 'sparkfun.com/datasheets/IC/MC34063A.pdf', 'sparkfun.com/datasheets/IC/MC34063A.pdf'),
+(4, 'ai_57a659781d725', 'ATmega8', 'MCU 8kb flash DIP28', 5.23, 14, 3, 10, 25, 'www.atmel.com/Images/Atmel-2486-8-bit-AVR-microcontroller-ATmega8_L_datasheet.pdf', 'www.gaw.ru/html.cgi/txt/ic/Atmel/micros/avr/atmega8.htm', 'www.gaw.ru/html.cgi/txt/ic/Atmel/micros/avr/atmega8.htm', 'www.gaw.ru/html.cgi/txt/ic/Atmel/micros/avr/atmega8.htm'),
+(5, 'ai_57a659781d788', 'LM358', 'Amplifier', 0.58, 73, 8, 20, 55, 'www.fairchildsemi.com/datasheets/LM/LM358.pdf', 'www.joyta.ru/5934-opisanie-i-primenenie-operacionnogo-usilitelya-lm358/', 'www.joyta.ru/5934-opisanie-i-primenenie-operacionnogo-usilitelya-lm358/', 'www.joyta.ru/5934-opisanie-i-primenenie-operacionnogo-usilitelya-lm358/'),
+(6, 'ai_57a65a11e6faa', 'NE555', 'Timer IC', 0.02, 150, 42, 50, 100, 'www.ti.com/lit/ds/symlink/se555.pdf', 'ru.wikipedia.org/wiki/NE555', 'ru.wikipedia.org/wiki/NE555', 'ru.wikipedia.org/wiki/NE555');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

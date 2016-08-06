@@ -56,15 +56,35 @@
             $link = mysqli_connect("localhost", "u158376855_sps", "u9550_lupa") or die( mysql_error() );
             mysqli_select_db($link, "u158376855_list");
             
-            $TableName="spisok";
+            $TableName="spisok_";
             
             $sql="SELECT * FROM $TableName";
             $query_result=mysqli_query($link,$sql) or die("Display error".mysql_error());
             print("<table class='table table-striped'>\n");
-            print("<tr class='success' align=center><td><strong>Названиея</strong></td><td><strong>Цена</strong></td><td><strong>URL</strong></td></tr>");
+            print("<tr class='success' align=center>
+			<td><strong>Названиея</strong></td>
+			<td><strong>Описание</strong></td>
+			<td><strong>Цена</strong></td>
+			<td><strong>Кол-во</strong></td>
+			<td><strong>Доступно</strong></td>
+			<td><strong>Заказано</strong></td>
+			<td><strong>Необходимо</strong></td>
+			<td><strong>DataSheets</strong></td>
+			<td><strong>AppNotes</strong></td>
+			</tr>");
             while($Row=mysqli_fetch_array($query_result))
             {
-            print("<tr align=center> <td align=left>&nbsp; $Row[name]</td> <td width=100>$Row[price] $</td> <td><a href=http://$Row[url]>$Row[url]</a></td> </tr>\n");
+            print("<tr align=center>
+			<td align=left>&nbsp; $Row[name]</td>
+			<td align=left>&nbsp; $Row[description]</td>
+			<td>$Row[price] $</td>
+			<td>$Row[Qty]</td>
+			<td>$Row[availble]</td>
+			<td>$Row[ordered]</td>
+			<td>$Row[need]</td>
+			<td><a href=http://$Row[datasheet] target=_blank><span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a></td>
+			<td><a href=http://$Row[appnote1] target=_blank><span class='glyphicon glyphicon-new-window' aria-hidden='true'></a></td>
+			</tr>\n");
             }
             print("</table>");
             mysqli_free_result($query_result);

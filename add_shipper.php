@@ -27,21 +27,17 @@ if(isset($_POST['submit_q']))
 	# Если нет ошибок, то добавляем в БД нового пользователя
 	if(count($err) == 0)
 	{
-		$tart = uniqid("ai_");
-		$tnem = $_POST['t_name'];
-		$tdes = $_POST['t_description'];
-		$tprc = $_POST['t_price'];
-		$tqty = $_POST['t_Qty'];
-		$tave = $_POST['t_availble'];
-		$tord = $_POST['t_ordered'];
-		$tned = $_POST['t_need'];
-		$tdaturl = $_POST['t_datasheet_url'];
-		$tap1url = $_POST['t_appnote_url'];
-		$tap2url = $_POST['t_appnote_url'];
-		$tap3url = $_POST['t_appnote_url'];
+		$tloc = $_POST['t_location'];
+		$tcom = $_POST['t_company'];
+		$tdti = $_POST['t_Dtime'];
+		$tdpr = $_POST['t_Dprice'];
+		$tsur = $_POST['t_ship_url'];
+		$tcon = $_POST['t_contacts'];
+		$tsid = uniqid("sid_");
+		$tbar = uniqid("bar_");
 		
-		mysqli_query($link,"INSERT INTO shippers_ SET articul='".$tart."', name='".$tnem."', description='".$tdes."', price='".$tprc."', Qty='".$tqty."', availble='".$tave."', ordered='".$tord."', need='".$tned."', datasheet='".$tdaturl."', appnote1='".$tap1url."', appnote2='".$tap2url."', appnote3='".$tap3url."'");
-		header("Location: add_component.php"); 
+		mysqli_query($link,"INSERT INTO shippers_ SET  shipperID='".$tsid."', company='".$tcom."', location='".$tloc."', barcode='".$tbar."', Dtime='".$tdti."', Dprice='".$tdpr."', URL='".$tsur."', contacts='".$tcon."'");
+		header("Location: add_shipper.php"); 
 		exit();
 	}
 	else
@@ -61,7 +57,7 @@ if(isset($_POST['submit_q']))
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="ru">
     <meta name="robots" content="index, follow" />
-    <title>Добавление нового компонента в базу</title>
+    <title>Добавление нового поставщика</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css" >
     <link rel="stylesheet" href="styles/manual.css" >
@@ -81,7 +77,7 @@ if(isset($_POST['submit_q']))
 			<p align="left"><a href="lists.html"><img src="images/sps-drow_A4.jpg"></a></p>
 		</div>
         <div class="col-md-7">
-			<p align="left"><H3><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp;&nbsp;Добавление нового компонента в базу</H3></p>
+			<p align="left"><H3><span class="glyphicon glyphicon-globe" aria-hidden="true"></span>&nbsp;&nbsp;Добавление нового поставщика</H3></p>
 		</div>
 	</div>
 </div>
@@ -99,7 +95,7 @@ if(isset($_POST['submit_q']))
                 <td>
                     <label for="basic-url">Расположение</label>
                   <div class="input-group has-success">
-	                  <input type="text" class="form-control" aria-label="..."  id="inputSuccess1" value = '<?=$val;?>'/>
+	                  <input name="t_location"  type="text" class="form-control" aria-label="..."  id="inputSuccess1" value = '<?=$val;?>'/>
                     <div class="input-group-btn">
                         <button type="button" class="btn btn-success dropdown-toggle" style="border-color:#3c763d"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">				 Выбрать <span class="caret"></span></button>
                         <ul class="dropdown-menu dropdown-menu-right">
@@ -161,6 +157,80 @@ if(isset($_POST['submit_q']))
               </tr>
             </table>
             </form>
+<!------------------------------------------------------------------------------------------------------------------------------------------------------>
+            <hr>
+            <p align="center" style="font:Verdana, Arial, Helvetica, sans-serif; font-size:12px; font-weight:bold">СПИСОК ПОСТАВЩИКОВ</p>
+            
+            <br>
+            <?php
+            // Скрипт проверки
+            
+            # Соединямся с БД
+            $link = mysqli_connect("localhost", "u158376855_sps", "u9550_lupa") or die( mysql_error() );
+            mysqli_select_db($link, "u158376855_list");
+            
+            if (isset($_COOKIE['id']) and isset($_COOKIE['hash']))
+            {   
+			$query = mysqli_query($link,"SELECT *,INET_NTOA(user_ip) AS user_ip FROM users WHERE user_id = '".intval($_COOKIE['id'])."' LIMIT 1");
+			$userdata = mysqli_fetch_assoc($query);
+		
+		
+			if(($userdata['user_hash'] !== $_COOKIE['hash']) or ($userdata['user_id'] !== $_COOKIE['id'])
+			or (($userdata['user_ip'] !== $_SERVER['REMOTE_ADDR'])  and ($userdata['user_ip'] !== "0")))
+			{
+				setcookie("id", "", time() - 3600*24*30*12, "/");
+				setcookie("hash", "", time() - 3600*24*30*12, "/");
+				print "Хм, что-то не получилось";
+				header("Location: index.php"); exit();
+			}
+			else
+			{
+			//////////////////////////////////////////////
+            
+            # Соединямся с БД
+            $link = mysqli_connect("localhost", "u158376855_sps", "u9550_lupa") or die( mysql_error() );
+            mysqli_select_db($link, "u158376855_list");
+            
+            $TableName="shippers_";
+			
+            
+            $sql="SELECT * FROM $TableName";
+            $query_result=mysqli_query($link,$sql) or die("Display error".mysql_error());
+            print("<table class='table table-striped'>\n");
+            print("<tr class='success' align=center>
+			<td>Компания</td>
+			<td>Расположение</td>
+			<td>Время доставки</td>
+			<td>Стоимость доставки</td>
+			<td>Ссылка</td> 
+			<td>Контакты</td>
+			<td><span class='glyphicon glyphicon-trash' aria-hidden='true'></td>
+			</tr>");
+            while($Row=mysqli_fetch_array($query_result))
+            {
+            print("<tr align=center> 
+			<td align=left>$Row[company]</td> 
+			<td>$Row[location]</td> 
+			<td>$Row[Dtime]</td> 
+			<td>$Row[Dprice]</td> 
+			<td><a href=http://$Row[URL] target=_blank>$Row[URL]</a></td>
+			<td>$Row[contacts]</td> 
+			<td><a href=\"delete.php?id=".$Row[shipperID]."\"><span class='glyphicon glyphicon-remove' aria-hidden='true'></a></td>
+			</tr>\n");
+            }
+            print("</table>");
+            mysqli_free_result($query_result);
+            mysqli_close($link);
+                ////////////////////////////////////////////// &nbsp; 
+                }
+            }
+            else
+            {
+                print "Включите куки";
+                header("Location: index.php"); exit();
+            } 
+            ?>
+<!------------------------------------------------------------------------------------------------------------------------------------------------------>
 		</div>
 	</div>
 </div>

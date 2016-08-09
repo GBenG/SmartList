@@ -52,47 +52,65 @@ if(isset($_POST['submit']))
     }
 }
 ?>
+<!doctype html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Кто ты?</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Language" content="ru">
+    <meta name="robots" content="index, follow" />
+    <title>Вход</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css" >
     <link rel="stylesheet" href="styles/manual.css" >
 	<link rel="shortcut icon" type="img/ico" href="images/favicon.ico" />
+    <script src="js/respond.min.js"></script>	
 </head>
-
+<!------------------------------------------------------------------------------------------------------------------------------------------------------>
 <body>
-<!--<table border="0" width="100%">
-  <tr>
-    <td colspan="3" background="images/bdht_01.jpg">&nbsp;</td>
-  </tr>
-  <tr>
-    <td><img src="images/bdht_02.jpg" height="100"></td>
-    <td width="100%"><p align="center"><a href="lists.html"><img src="images/sps-drow_A4.jpg"></a></p></td>
-    <td><img src="images/bdht_03.jpg" height="100"></td>
-  </tr>
-</table> -->
-<p align="center"><a href="lists.html"><img src="images/sps-drow_A4.jpg"></a></p>
-<br><br>
-<form method="POST">
-    <table align="center">
-        <tr>
-          <td rowspan="4"><img src="images/3_p3.jpg" width="67"></td>
-            <td rowspan="4">&nbsp;</td>
-            <td>Логин:</td>
-            <td><input name="login" type="text"></td>
-        </tr>
-        <tr>
-          <td>Пароль:</td>
-            <td><input name="password" type="password"></td>
-        </tr>
-        <tr>
-          <td></td>
-            <td><input name="submit" type="submit" value="Войти"></td>
-        </tr>
-    </table>
-</form>
+<br>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-3  col-md-offset-1">
+			<p align="left"><a href="lists.html"><img src="images/sps-drow_A4.jpg"></a></p>
+		</div>
+        <div class="col-md-7">
+			<p align="left"><H3><span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;&nbsp;Вход в базу</H3></p>
+		</div>
+	</div>
+</div>
+<hr>
+<!------------------------------------------------------------------------------------------------------------------------------------------------------>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-10  col-md-offset-1">
+            <form method="POST">
+                <table align="center">
+                    <tr>
+                      <td width="80px" rowspan="2"><img src="images/3_p3.jpg" width="67px"></td>
+                        <td width="80px"><label for="basic-url">Логин</label></td>
+                        <td>
+                    	<input type="text" name="login" class="form-control" placeholder="Login" aria-describedby="basic-addon1">
+                        </td>
+                    </tr>
+                    <tr>
+                      <td><label for="basic-url">Пароль</label></td>
+                      <td>
+                      <input type="text" name="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td width="80px">&nbsp;</td>
+                      <td></td>
+                        <td>
+                        <br>
+                    	<p class="text-left"><input class="btn btn-success btn-sm  btn-block" name="submit" type="submit" value="Войти"></p>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
 <hr>
 <div class="well">Develop by <strong><a href="http://sps.esy.es/">SPS</a></strong> for <strong>Ambience Innovations</strong> 
 <span class="glyphicon glyphicon-copyright-mark"></span> 2016</div>

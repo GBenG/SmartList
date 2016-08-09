@@ -47,6 +47,7 @@
                     setcookie("id", "", time() - 3600*24*30*12, "/");
                     setcookie("hash", "", time() - 3600*24*30*12, "/");
                     print "Хм, что-то не получилось";
+					header("Location: index.php"); exit();
                 }
                 else
                 {
@@ -69,8 +70,9 @@
 			<td><strong>Доступно</strong></td>
 			<td><strong>Заказано</strong></td>
 			<td><strong>Необходимо</strong></td>
-			<td><strong>DataSheets</strong></td>
-			<td><strong>AppNotes</strong></td>
+			<td><strong>DataSheet</strong></td>
+			<td><strong>AppNote</strong></td>
+			<td><span class='glyphicon glyphicon-trash' aria-hidden='true'></td>
 			</tr>");
             while($Row=mysqli_fetch_array($query_result))
             {
@@ -83,7 +85,8 @@
 			<td>$Row[ordered]</td>
 			<td>$Row[need]</td>
 			<td><a href=http://$Row[datasheet] target=_blank><span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a></td>
-			<td><a href=http://$Row[appnote1] target=_blank><span class='glyphicon glyphicon-new-window' aria-hidden='true'></a></td>
+			<td><a href=http://$Row[appnote1] target=_blank><span class='glyphicon glyphicon-link' aria-hidden='true'></a></td>
+			<td><a href=\"delete.php?id=".$Row[articul]."\"><span class='glyphicon glyphicon-remove' aria-hidden='true'></a></td>
 			</tr>\n");
             }
             print("</table>");
@@ -95,6 +98,7 @@
             else
             {
                 print "Включите куки";
+				header("Location: index.php"); exit();
             } 
             ?>
 		</div>

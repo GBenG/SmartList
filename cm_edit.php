@@ -1,10 +1,46 @@
+<?php
+
+  
+# Добавление элемента в список
+# Соединямся с БД
+$link = mysqli_connect("localhost", "u158376855_sps", "u9550_lupa") or die( mysql_error() );
+mysqli_select_db($link, "u158376855_list");
+
+if(isset($_POST['delete_q']))
+{
+	$err = array();
+	# Если нет ошибок, то добавляем в БД нового пользователя
+	if(count($err) == 0)
+	{
+		//mysqli_query($link,"DELETE FROM spisok_ WHERE articul='{$_GET['id']}' LIMIT 1");
+		
+		mysqli_query($link,"INSERT INTO shippers_ SET shipperID='".$tsid."', company='".$tcom."', location='".$tloc."', barcode='".$tbar."', Dtime='".$tdti."', Dprice='".$tdpr."', URL='".$tsur."', contacts='".$tcon."'");
+		header("Location: spisok.php"); 
+		exit();
+	}
+	else
+	{
+		print "<div class=jumbotron  align=center><h3>При удалении из базы произошла ошибка (O_x)</h3></div>";
+		foreach($err AS $error)
+		{
+			header("Location: reg_error.html"); exit();
+		}
+	}
+}
+if(isset($_POST['cancel_q']))
+{		
+	header("Location: spisok.php");
+	exit();
+}
+?>
+<!--//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 <!doctype html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="Content-Language" content="ru">
     <meta name="robots" content="index, follow" />
-    <title>Общий список компонентов</title>
+    <title>Редактировать компонент</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.min.css" >
     <link rel="stylesheet" href="styles/manual.css" >
@@ -20,7 +56,7 @@
 			<p align="left"><a href="lists.html"><img src="images/sps-drow_A4.jpg"></a></p>
 		</div>
         <div class="col-md-7">
-			<p align="left"><H3><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;Общий список компонентов</H3></p>
+			<p align="left"><H3><span class='glyphicon glyphicon-trash' aria-hidden='true'></span>&nbsp;&nbsp;Удалить элемент писка?</H3></p>
 		</div>
 	</div>
 </div>
@@ -28,8 +64,7 @@
 <!------------------------------------------------------------------------------------------------------------------------------------------------------>
 <div class="container-fluid">
 	<div class="row">
-        <div class="col-md-10  col-md-offset-1">
-            <?php
+    <?php
             # Скрипт проверки
             # Соединямся с БД
             $link = mysqli_connect("localhost", "u158376855_sps", "u9550_lupa") or die( mysql_error() );
@@ -59,40 +94,35 @@
             
             $TableName="spisok_";
             
-            $sql="SELECT * FROM $TableName";
-            $query_result=mysqli_query($link,$sql) or die("Display error".mysql_error());
-            print("<table class='table table-striped'>\n");
-            print("<tr class='success' align=center>
-			<td><strong>Названиея</strong></td>
-			<td><strong>Описание</strong></td>
-			<td><strong>Цена</strong></td>
-			<td><strong>Имеется</strong></td>
-			<td><strong>Доступно</strong></td>
-			<td><strong>Заказано</strong></td>
-			<td><strong>Необходимо</strong></td>
-			<td><strong>DataSheet</strong></td>
-			<td><strong>AppNote</strong></td>
-			<td><strong>Ред.</strong></td>
-			<td><span class='glyphicon glyphicon-trash' aria-hidden='true'></td>
-			</tr>");
-            while($Row=mysqli_fetch_array($query_result))
-            {
-            print("<tr align=center>
-			<td align=left>&nbsp; $Row[name]</td>
-			<td align=left>&nbsp; $Row[description]</td>
-			<td>$Row[price] $</td>
-			<td>$Row[Qty]</td>
-			<td>$Row[availble]</td>
-			<td>$Row[ordered]</td>
-			<td>$Row[need]</td>
-			<td><a href=http://$Row[datasheet] target=_blank><span class='glyphicon glyphicon-new-window' aria-hidden='true'></span></a></td>
-			<td><a href=http://$Row[appnote1] target=_blank><span class='glyphicon glyphicon-link' aria-hidden='true'></a></td>
-			<td><a href=\"delete.php?id=".$Row[articul]."\"><span class='glyphicon glyphicon-pencil' aria-hidden='true'></a></td>
-			<td><a href=\"delete.php?id=".$Row[articul]."\"><span class='glyphicon glyphicon-remove' aria-hidden='true'></a></td>
-			</tr>\n");
-            }
-            print("</table>");
-            mysqli_free_result($query_result);
+            //$sql="SELECT * FROM $TableName WHERE ID=1";
+            //$query_result=mysqli_query($link,$sql) or die("Display error".mysql_error());
+            
+			$query = mysqli_query($link,"SELECT * FROM $TableName WHERE articul='{$_GET['id']}' LIMIT 1");
+            $Raw = mysqli_fetch_assoc($query);
+			
+			print("<form method=POST>
+				<label for=basic-url>Название</label>
+            	<input type=text name=t_name class=form-control placeholder=Name aria-describedby=basic-addon1 value='$Raw[name]'>
+				
+				<label for=basic-url>Описание</label>
+                <input type=text name=t_description class=form-control placeholder=Description aria-describedby=basic-addon1 value='$Raw[description]'>
+				
+				<label for=basic-url>Цена</label>
+				<div class=input-group>
+					<input type=text name=t_price class=form-control placeholder=0,00 value='$Raw[price]'>
+					<span class=input-group-addon>$</span>
+				</div>
+				
+				<label for=basic-url>Кол-во</label>
+				<div class=input-group>
+					<input type=text name=t_Qty class=form-control placeholder=0 value='$Raw[Qty]'>
+					<span class=input-group-addon>шт.</span>
+				</div>
+				
+				<br>
+				<p class=text-left><a href=\"spisok.php\">Назад</a></p>
+				</form>\n");
+
             mysqli_close($link);
                 //////////////////////////////////////////////
                 }
@@ -103,7 +133,6 @@
 				header("Location: index.php"); exit();
             } 
             ?>
-		</div>
 	</div>
 </div>
 

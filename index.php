@@ -89,13 +89,13 @@ if(isset($_POST['submit']))
                       <td width="80px" rowspan="2"><img src="images/3_p3.jpg" width="67px"></td>
                         <td width="80px"><label for="basic-url">Логин</label></td>
                         <td>
-                    	<input type="text" name="login" class="form-control" placeholder="Login" aria-describedby="basic-addon1">
+                    	<input type="text" name="login" class="form-control" placeholder="admin" aria-describedby="basic-addon1">
                         </td>
                     </tr>
                     <tr>
                       <td><label for="basic-url">Пароль</label></td>
                       <td>
-                      <input type="text" name="password" class="form-control" placeholder="Password" aria-describedby="basic-addon1">
+                      <input type="text" name="password" class="form-control" placeholder="data" aria-describedby="basic-addon1">
                       </td>
                     </tr>
                     <tr>
